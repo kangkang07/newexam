@@ -1,0 +1,82 @@
+<script src="/bootstrap/js/button.js">
+</script>
+<script type="text/javascript" src="/ueditor/ueditor.config.js">
+</script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/ueditor/ueditor.all.min.js">
+</script>
+<!-- 实例化编辑器 -->
+<script type="text/javascript" charset="utf-8" src="/ueditor/kityformula-plugin/addKityFormulaDialog.js">
+</script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/kityformula-plugin/getKfContent.js">
+</script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/kityformula-plugin/defaultFilterFix.js">
+</script>
+<div class="col-md-6" id="questionlist">
+    <h3 class="h3">题目列表</h3>
+    <hr>
+    <div class="list-group questionlist">
+        <button type="button" class="list-group-item" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Cras justo odio
+        </button>
+        <div class="list-group sub-questionlist" id="collapseExample">
+            <button type="button" class="list-group-item">
+                Cras justo odio
+            </button>
+            <button type="button" class="list-group-item">
+                Dapibus ac facilisis in
+            </button>
+            <button type="button" class="list-group-item">
+                Morbi leo risus
+            </button>
+            <button type="button" class="list-group-item">
+                Porta ac consectetur ac
+            </button>
+            <button type="button" class="list-group-item">
+                Vestibulum at eros
+            </button>
+        </div>
+        <button type="button" class="list-group-item">
+            Dapibus ac facilisis in
+        </button>
+        <button type="button" class="list-group-item">
+            Morbi leo risus
+        </button>
+        <button type="button" class="list-group-item">
+            Porta ac consectetur ac
+        </button>
+        <button type="button" class="list-group-item">
+            Vestibulum at eros
+        </button>
+        <button type="button" class="list-group-item">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            &nbsp;<span class="addchapter">添加章节</span>
+        </button>
+    </div>
+</div>
+<div class="col-md-6" id="editquestion">
+    <h3 class="h3">编辑题目</h3>
+    <hr>
+    <div class="well">
+        <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-info active">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> 选择题
+            </label>
+            <label class="btn btn-info">
+                <input type="radio" name="options" id="option2" autocomplete="off">判断题
+            </label>
+        </div><h3>主题干</h3>
+		
+        <script id="qst-main" name="qst-main" type="text/plain">
+        </script>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        var ue = UE.getEditor('qst-main', {
+            toolbars: [['fullscreen', 'source', '|', 'bold', 'italic', 'underline', '|', 'fontsize', '|', 'kityformula', 'preview']]
+        });
+    });
+</script>
+<div id="domtpl">
+</div>

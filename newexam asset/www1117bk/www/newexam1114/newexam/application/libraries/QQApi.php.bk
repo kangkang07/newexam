@@ -1,0 +1,7 @@
+<?php
+namespace libraries;
+class QQApi {
+	function __construct() {
+	}
+}
+?>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>文件导入</title>
+</head>
+<body>
+<?php echo $error;?>
+<form method="post"  enctype="multipart/form-data" action="/TestImport/doupload" accept-charset="utf-8">
+
+<input type="file" name="userfile" size="20" />
+
+<br /><br />
+
+<input type="submit" value="upload" />
+
+</form>
+</body>
+</html>

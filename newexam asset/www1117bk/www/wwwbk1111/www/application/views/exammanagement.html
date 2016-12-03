@@ -1,0 +1,90 @@
+<script src="js/angular.js">
+</script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+<script src="/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="/style/bootstrap-multiselect.css">
+<script src="js/exammanage.js"></script>
+
+<div ng-app="exams" ng-controller="default">
+    <div class="col-md-4">
+          <span class="h3">考试列表</span>
+          <button class="btn" style="float:right" ng-click="newexam()">添加考试</button>
+    <hr>
+        <div class="list-group" id="examlist">
+            <a class="list-group-item {{e.isfocus}}" ng-repeat="e in itemlist" ng-click="examclick(e)">
+                <div class="list-group-item-heading">
+                    {{e.examname}}
+
+                </div>
+                <div class="list-group-item-text">
+                   <small>{{e.examstart}} -- {{e.examend}}</small> 
+                </div>
+            </a>
+
+        </div>
+    </div>
+    <div class="col-md-8">
+         <span class="h3">考试详情</span><!-- <span class="h3 label label-info" ng-show="cexam.idexam==undefined">添加考试</span> -->
+    <hr>
+        <div class="panel">
+            <button class="btn btn-default" ng-click="viewexamusers()">查看考试用户列表</button>
+        </div>
+        
+        
+        <div class="panel panel-default">
+            
+            <div class="panel-body form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2" for="examtime">
+                        考试名：
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="text" id="examname" ng-model="cexam.examname" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="examstart">
+                        考试时间：
+                    </label>
+                    <div class="col-sm-10 form-inline">
+                        <input type="text" id="examstart" ng-model="cexam.examstart" class="form-control">
+                        &nbsp至&nbsp;
+                        <input type="text" id="examend" ng-model="cexam.examend" class="form-control">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="examduration">
+                        考试时长：
+                    </label>
+                    <div class="col-sm-10 form-inline">
+                        <input type="text" id="examduration" ng-model="cexam.duration" class="form-control">&nbsp;分钟
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="paperselect">
+
+                        章节选择：
+                    </label>
+                    <div class="col-sm-10 form-inline">
+                    <select id="chapterselect" multiple class="form-control" ng-model="cexam.chapters">
+                        <option ng-repeat="c in chapterlist" value="{{c.idchapter}}">{{c.chaptername}}</option>
+                    </select>
+<!--                    <a href="/Paperapi/getpaperview/{{exampaper.idpaper}}" target="_blank">查看试卷</a>-->
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2" for="examstatus">
+                        考试状态：
+                    </label>
+                    <div class="col-sm-10 form-inline">
+                    <input type="radio" id="examstatus" name="status" value="1" ng-model="cexam.enabled" class="form-control">可以考试
+                    <input type="radio" name="status" class="form-control" ng-model="cexam.enabled" value="0">不可用
+                    </div>
+                </div>
+
+                <button class="btn" ng-click="saveexam()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>

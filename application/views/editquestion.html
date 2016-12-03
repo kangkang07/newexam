@@ -1,0 +1,276 @@
+<script type="text/javascript" src="/js/angular.js"></script>
+<script src="/bootstrap/js/button.js">
+</script>
+<script type="text/javascript" src="/ueditor/ueditor.config.js">
+</script>
+<script type="text/javascript" src="/ueditor/ueditor.all.js">
+</script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/kityformula-plugin/addKityFormulaDialog.js">
+</script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/kityformula-plugin/getKfContent.js">
+</script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/kityformula-plugin/defaultFilterFix.js">
+</script>
+
+<script src="js/editquestion.js"></script>
+
+<div class="row" ng-app="question" ng-controller="default">
+<div class="col-md-5" id="questionlist" ng-style="winstyle">
+    <span class="h3">题目列表</span>
+    <hr>
+    <div class="list-group questionlist" id="cpt-list">
+    	<!-- <div class="cpt-panel" data-cpt="1">
+	        <div class="list-group-item chapter-item" id="cpt-1" data-toggle="collapse" data-target="#qstlist-1" aria-expanded="false" aria-controls="qstlist-1">
+	            <span class="cpt-title">第一章</span>
+				<div class="chapter-edit input-group">
+					<input class="form-control" type="text"/>
+					<span class="input-group-btn">
+		            	
+		        		<button class="btn btn-default savechap" type="button">保存</button>
+						<button class="btn btn-default cancelchap" type="button">取消</button>
+		      		</span>
+				</div>
+	        </div>
+	        <div class="list-group sub-questionlist collapse" id="qstlist-1">
+	        	<div class="list-group-item btn-group list-toolbar">
+		        	<button type="button" class="addqst btn">
+		               	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加题目
+		            </button>
+					<button type="button" class="addqst btn">
+		               	 <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新
+		            </button>
+					<button type="button" class="editchap btn">
+		               	 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑章节
+		            </button>
+				</div>
+				<div class="list-group-item list-loading">
+		        	<div class="progress">
+	  					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+	  					</div>
+					</div>
+				</div>
+	            <button href="javascript:openqst(1)" type="button" id="qst-1" class="list-group-item qst-item">
+	                Be sure to add aria-expanded to the control element. This attribute explicitly defines the current state of the collapsible element to screen readers and similar assistive technologies. If the collapsible element is closed by default, it should have a value of aria-expanded="false". If you've set the collapsible element to be open by default using the in class, set aria-expanded="true" on the control instead. The plugin will automatically toggle this attribute based on whether or not the collapsible element has been opened or closed.
+	
+	Additionally, if your control element is targetting a single collapsible element – i.e. the data-target attribute is pointing to an id selector – you may add an additional aria-controls at
+	            </button>
+	           
+	        </div>
+		</div> -->
+     	
+		<div class="list-group-item" id="newchapter">
+			<div class="input-group">
+				<input class="form-control" type="text" id="newchapname"/>
+				<span class="input-group-btn">
+	            	
+	        		<button class="btn btn-default" type="button" id="savenewchap">添加</button>
+					<button class="btn btn-default" type="button" id="cancelnewchap">取消</button>
+	      		</span>
+			</div>
+        </div>
+
+
+        <button type="button" class="list-group-item" id="addchapter">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            &nbsp;<span class="addchapter">添加章节</span>
+        </button>
+    </div>
+</div>
+<div class="col-md-7"  id="editquestion" ng-style="winstyle">
+    <span class="h3">编辑题目  &nbsp;<span id="editingmode" class="h3 label label-info"></span> </span>
+
+    <hr>
+	<div id="emptymsg" class="jumbotron">
+		<h2>请选择题目来编辑</h2>
+		</div>
+    <div class="well" id="qstwell">
+    	<span class="h4 text-muted" id="qst-chaptitle"></span>
+    	<br>
+    	<br>
+    	
+        <div class="btn-group" data-toggle="buttons" >
+            <label class="btn btn-info active qst-type" id="qtypeselect" >
+                <input type="radio" value="1" autocomplete="off"> 选择题
+            </label>
+            <label class="btn btn-info qst-type" id="qtypebool">
+                <input type="radio" value="2" autocomplete="off">判断题
+            </label>
+			
+        </div>
+		<br><br>
+		<div class="form-inline from-group">
+			星级：
+			<select id="qst-star" class="form-control" >
+				<option value=0>0</option>
+				<option value=1>1</option>
+				<option value=2>2</option>
+			</select>
+			题目组
+			<input type="text" id="qst-group" class="form-control"/>
+			参考ID
+			<input type="text" id="qst-refid" class="form-control" title="在导入之前该题目可能拥有另外的编号，可以输入这里便于查询核对。"/>
+			<button class="btn" style="float:right" data-toggle="modal" data-target="#previewmodal">预览</button>
+			</div>
+		<h3>主题干</h3>
+		
+        <script id="qst-main" name="qst-main" type="text/plain">
+        </script>
+		
+		<h3>答案</h3>
+		<div id="qst-select">
+			选项1：
+			<script id="op1" name="op1" type="text/plain">
+        </script>
+			选项2：
+			<script id="op2" name="op2" type="text/plain">
+        </script>
+			选项3：
+			<script id="op3" name="op3" type="text/plain">
+        </script>
+			选项4：
+			<script id="op4" name="op4" type="text/plain">
+        </script>
+		
+		<br>
+			正确答案：
+			 <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-info active qst-select-a" id="as-1" >
+                <input type="radio"  value="1" autocomplete="off"> 选项1
+            </label>
+            <label class="btn btn-info qst-select-a" id="as-2">
+                <input type="radio"  value="2" autocomplete="off">选项2
+            </label>
+			 <label class="btn btn-info qst-select-a" id="as-3">
+                <input type="radio"  value="3" autocomplete="off">选项3
+            </label>
+			 <label class="btn btn-info qst-select-a" id="as-4" >
+                <input type="radio" value="4" autocomplete="off">选项4
+            </label>
+        </div>
+			<!--<input type="radio" name="qst-select-a" id="as-1" />选项1
+			<input type="radio" name="qst-select-a" id="as-2" />选项2
+			<input type="radio" name="qst-select-a" id="as-3" />选项3
+			<input type="radio" name="qst-select-a" id="as-4" />选项4-->
+		</div>
+		<div id="qst-bool">
+			 <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-info qst-bool-a active" id="as-r" >
+                <input type="radio"  value="r" autocomplete="off"> 正确
+            </label>
+            <label class="btn btn-info qst-bool-a" id="as-w" >
+                <input type="radio" value="w" autocomplete="off">错误
+            </label>
+        </div>
+			
+			
+			<!--<input type="radio" name="qst-bool-a" id="as-r" />正确
+			<input type="radio" name="qst-bool-a" id="as-w" />错误-->
+		</div>
+		<br>
+		<button class="btn btn-success" id="btnsave" >保存</button>
+		<button class="btn btn-warning" id="btndelete">删除</button>
+	</div>
+</div>
+
+</div>
+<iframe name="uploadframe" style="display:none">
+<form action="/Questionapi/importqst" method="post" >
+<input type="file" name="datasheet">
+<input type="text" name="chapid" >
+</form>
+</iframe>
+<!-- <div class="modal fade" id="importmodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">导入题目</h4>
+      </div>
+      <div class="modal-body">
+        <form action="/Questionapi/importqst" method="post" id="importform"  enctype="multipart/form-data"  accept-charset="utf-8">
+			<input type="file" name="datasheet">
+			<input type="hidden" name="chapid" id="importchapid" >
+			<a href="/导入模板.xlsx">导入模板</a>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('importform').submit()">导入</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal fade" id="previewmodal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">预览</h4>
+      </div>
+      <div class="modal-body">
+        <div id="pre-maintext"></div>
+          <div id="pre-options"></div>
+          <div id="pre-answer"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">好的</button>
+       
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div id="domtpl">
+	<div id="tpl-newchapter">
+		<div class="cpt-panel" data-cpt="{cid}">
+	        <div class="list-group-item chapter-item" data-toggle="collapse" data-target="#qstlist-{cid}" aria-expanded="false" aria-controls="qstlist-{cid}">
+	            <span class="cpt-title"></span>
+				<div class="chapter-edit">
+					<div class="input-group">
+						<input class="form-control editor-cptname" type="text"/>
+						<span class="input-group-btn">
+			            	
+			        		<button class="btn btn-default savechap" type="button">保存</button>
+							<button class="btn btn-default cancelchap" type="button">取消</button>
+			      		</span>
+		      		</div>
+				</div>
+	        </div>
+	        <div class="list-group sub-questionlist collapse" id="qstlist-{cid}">
+	        	<div class="list-group-item btn-group list-toolbar">
+		        	<button type="button" class="addqst btn">
+		               	 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加题目
+		            </button>
+					<button type="button" class="refreshqst btn">
+		               	 <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新
+		            </button>
+					<button type="button" class="editchap btn">
+		               	 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>编辑章节
+		            </button>
+		             <button type="button" class="preview btn">
+		               	 <span class="glyphicon glyphicon-import" aria-hidden="true"></span>预览题目
+		            </button> 
+				</div>
+				<div class="list-group-item list-loading">
+		        	<div class="progress">
+	  					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+	  					</div>
+					</div>
+				</div>
+	           
+	           
+	        </div>
+		</div>
+		
+	</div>
+	<div id="tpl-qstlistitem">
+		<button type="button" id="qst-{qid}" class="list-group-item qst-item">
+	                
+	    </button>
+		<span class="qst-statistic">
+			使用：{usecount} 次 &nbsp;&nbsp; 正确率：{rightrate} %
+		</span>
+	</div>
+</div>
