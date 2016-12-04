@@ -26,9 +26,9 @@ class Invicode extends RP_Model {
      */
     public function GenerateCode($source,$target)
     {
-        $code=$this->MakeCode();
-$this->Delete(array("sourceid"=>$source,"targetid"=>$target));
-        $this->Create(array("invicode"=>$code,"sourceid"=>$source,"targetid"=>$target));
+        $code = $this->MakeCode();
+        $this->Delete(array("sourceid" => $source, "targetid" => $target));
+        $this->Create(array("invicode" => $code, "sourceid" => $source, "targetid" => $target));
     }
 
     private function MakeCode(){

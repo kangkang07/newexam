@@ -35,29 +35,32 @@ class AnswerDetailsapi extends RP_Controller {
      */
     public function FromCode()
     {
-        $eid=$_GET["examid"];
-        $sid=$_GET["schoolid"];
-        $name=$_GET["username"];
-        $this->load->model("Rep/Invicode","icode");
-        $this->load->model("Rep/User","user");
-       
-        $u=$this->user->GetBySID($sid);
-if($u!=null){
- $codeinfo=$this->icode->GetOne(array("sourceid"=>(int)$eid,"targetid"=>$u->iduser));
-}
-else{
-
-$this->errorpage("考试码或学号错误");
-return;
-}
-        if($u->name==$name&&$codeinfo!=null)
-        {
-			$this->session->user=$this->user->GetBySID($sid);
+        $eid = $_GET["examid"];
+        $sid = $_GET["schoolid"];
+        $name = $_GET["username"];
+        $this->load->model("Rep/Invicode", "icode");
+        $this->load->model("Rep/User", "user");
+        $this->load->model("Rep/Exam","exam");
+        $u = $this->user->GetBySID($sid);
+        $exam=$this->exam->GetByID($eid);
+        if ($u != null&&$exam!=null) {
+            //$codeinfo = $this->icode->GetOne(array("sourceid" => (int)$eid, "targetid" => $u->iduser));
+            //changed 20161204 all exam directly from exam id
+            $this->icode->GenerateCode($eid,$u->iduser);// make sure the exam user list has item
+            $this->session->user = $this->user->GetBySID($sid);
             $this->answertime((int)$eid);
             return;
+        } else {
+
+            $this->errorpage("考试码或学号错误");
+            return;
         }
-        else
-        $this->errorpage("考试码或学号错误");
+//        if ($u->name == $name && $codeinfo != null) {
+//            $this->session->user = $this->user->GetBySID($sid);
+//            $this->answertime((int)$eid);
+//            return;
+//        } else
+//            $this->errorpage("考试码或学号错误");
     }
 
 

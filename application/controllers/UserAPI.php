@@ -57,12 +57,14 @@ class Userapi extends RP_Controller {
 	public function EditUser()
 	{
 		$this->load->database();
-		$grades=$this->db->select("grade")
-			->distinct()
-			->get("user");
-		$classes=$this->db->select("class")
-			->distinct()
-			->get("user");
+//		$grades=$this->db->select("grade")
+//			->distinct()
+//			->get("user");
+        $grades=$this->db->query("select distinct grade from user where grade is not null")->result();
+//		$classes=$this->db->select("class")
+//			->distinct()
+//			->get("user");
+        $classes=$this->db->query("select distinct class from user where class is not null")->result();
 		$data["grades"]=$grades;
 		$data["classes"]=$classes;
 		$this->loadview("edituser",$data);
@@ -73,27 +75,28 @@ class Userapi extends RP_Controller {
 		$start=$_REQUEST["start"];
 		$length=$_REQUEST["length"];
 		$search=$_REQUEST["search"];
-		$orders=$_REQUEST["order"];
+
+		//$orders=$_REQUEST["order"];
 		$where=[];
 		if(!empty($_REQUEST["grade"]))
 			$where["grade"]=$_REQUEST["grade"];
 		if(!empty($_REQUEST["class"]))
 			$where["class"]=$_REQUEST["class"];
 		$this->load->database();
-		$rst=$this->db
+		$this->db
 			->select('iduser,schoolid,name,grade,class')
 			->where($where)
 			->group_start()
-				->or_like("schoolid",$search)
-				->or_like("name",$search)
-			->group_end()
-			->order_by($orders)
-			->get('user',$length,$start);
+				->or_like("schoolid",$search["value"])
+				->or_like("name",$search["value"])
+			->group_end();
+//			->order_by($orders)
+		$rst=$this->db->get('user',$length,$start);
 		$result=(object)array();
 		$result->recordsTotal=$this->db->count_all("user");
 		$result->recordsFiltered=count($rst);
 		$result->draw=$draw;
-		$result->data=$rst;
+		$result->data=$rst->result();
 		$this->outputjson($result);
 
 	}

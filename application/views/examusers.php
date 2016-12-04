@@ -5,7 +5,7 @@
 <h3><?php 
     echo $exam->examname;
     ?></h3>
-<button class="btn btn-default" onclick="importmodal()">导入考生列表</button>
+<!--<button class="btn btn-default" onclick="importmodal()">导入考生列表</button>-->
 <button class="btn btn-default" onclick="exporttable()" >导出列表</button>
 <div class="panel panel-default">
     <div class="panel-body">

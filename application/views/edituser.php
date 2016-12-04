@@ -1,22 +1,27 @@
-<link href="../../datatables/dataTables.bootstrap.min.css" rel="stylesheet" />
-<script src="../../datatables/jquery.dataTables.js"></script>
-<link href="../../datatables/datatables.min.css" rel="stylesheet" />
-<link href="../../datatables/jquery.dataTables.min.css" rel="stylesheet" />
-<h3><?php
-    echo $exam->examname;
-    ?></h3>
+<link href="/datatables/dataTables.bootstrap.min.css" rel="stylesheet" />
+<script src="/datatables/jquery.dataTables.js"></script>
+
+<link href="/datatables/jquery.dataTables.min.css" rel="stylesheet" />
+
 
 <span>年级</span>
-<select id="grade">
+<select id="grade" onchange="datarefresh()">
+    <option></option>
     <?php foreach ($grades as $grade): ?>
-    <option><?php echo $grade; ?></option>
+    <option><?php echo $grade->grade; ?></option>
     <?php endforeach; ?>
 </select>
 <span>班级</span>
-<select id="class"></select>
+<select id="class" onchange="datarefresh()">
+    <option></option>
+    <?php foreach ($classes as $class): ?>
+        <option><?php echo $class->class; ?></option>
+    <?php endforeach; ?>
+
+</select>
 
 <button class="btn btn-default" onclick="importmodal()">导入考生</button>
-<button class="btn btn-default" onclick="exporttable()" >导出列表</button>
+<!--<button class="btn btn-default" onclick="exporttable()" >导出列表</button>-->
 
 
 <div class="panel panel-default">
@@ -55,10 +60,11 @@
 </div>
 <script>
 
-    var datatable;
+    var usertable;
     $(function () {
-        datatable=$("#tables").DataTable({
+        usertable=$("#tables").DataTable({
             serverSide: true,
+            "ordering":false,
             ajax:{
                 "url":"/UserAPI/Edit",
                 "method":"POST",
@@ -68,12 +74,12 @@
                 }
             },
             columns:[
-                {data"iduser"},
-                {data:"schoolid",name:"学号"},
-                {data:"name",name:"姓名"},
-                {data:"grade",name:"年级"},
-                {data:"class",name:"班级"},
-                {name:"操作"}
+                {data:"iduser"},
+                {data:"schoolid",title:"学号"},
+                {data:"name",title:"姓名"},
+                {data:"grade",title:"年级"},
+                {data:"class",title:"班级"},
+                {title:"操作"}
             ],
             columnDefs:[
                 {
@@ -121,18 +127,22 @@
 
     //TODO change it
     var exporttable = function () {
-        window.open("/Answersheetapi/ExportTable/?eid=<? echo $exam->idexam; ?>");
+
     };
 
     var deleteuser=function(id){
+        if(confirm("确定要删除该用户吗？"))
         $.ajax({
-            url:"/DeleteByID/"+id,
+            url:"/UserAPI/DeleteByID/"+id,
             method:"POST",
             success:function(data){
                 alert("删除成功！");
-                datatable.ajax.reload();
+                usertable.ajax.reload();
             }
 
         });
+    }
+    var datarefresh=function(){
+        usertable.ajax.reload();
     }
 </script>
