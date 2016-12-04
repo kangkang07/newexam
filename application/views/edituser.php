@@ -44,7 +44,7 @@
                 <h5>
                     <b>请确保导入的文件使用以下模板：</b>
                 </h5>
-                <a href="/导入考生模板.xlsx">点击下载导入考生模板</a>
+                <a href="/导入考生模板.xls">点击下载导入考生模板</a>
                 <h5><b>模板填入填入数据后，选择上传，点击‘导入’</b></h5>
                 <form action="/UseAPI/ImportUser" method="post" id="importform" enctype="multipart/form-data" accept-charset="utf-8">
                     <input type="file" name="usersheet" />
