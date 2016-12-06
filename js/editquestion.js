@@ -390,11 +390,14 @@ function Question(cpt){
 	};
 	this.renderlistitem=function(){
 		var qst=$("#tpl-qstlistitem").clone();
-		qst.find("button").html(this.gettitle());
-		var html=$(qst).html();
-		html=html.replace(/{qid}/g,this.qid);
-		html=html.replace("{usecount}",this.usecount);
-		html=html.replace("{rightrate}",this.rightrate);
+		var html=this.gettitle();
+		html+="<span class='qst-statistic'> 【使用："+this.usecount+"次 &nbsp;&nbsp; 正确率："+this.rightrate+"% 】</span>";
+		qst.find("button").html(html);
+
+		html=$(qst).html();
+		 html=html.replace(/{qid}/g,this.qid);
+		// html=html.replace("{usecount}",this.usecount);
+		// html=html.replace("{rightrate}",this.rightrate);
 
 		return html;
 	};

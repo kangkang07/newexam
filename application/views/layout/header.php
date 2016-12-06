@@ -57,17 +57,18 @@ if(@$_SESSION["user"]->role!='3') {?>
                 <li>
                     <a href="/Examapi">考试管理</a>
                 </li>
-<!--
-				 <li><a href="/Paperapi">试卷管理</a>
-                </li> 
+    <li>
+        <a href="/UserAPI/EditUser">用户管理</a>
+    </li>
+    <!--
+                     <li><a href="/Paperapi">试卷管理</a>
+                    </li>
 
-				
-                <li>
-                    <a href="/Userapi">用户管理</a>
-                </li>         
-				<li><a href="/Answersheetapi">参加考试</a>
-                </li>
-    -->
+
+
+                    <li><a href="/Answersheetapi">参加考试</a>
+                    </li>
+        -->
                 <?php }?>
             </ul>
 

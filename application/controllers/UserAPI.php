@@ -94,9 +94,10 @@ class Userapi extends RP_Controller {
 		$rst=$this->db->get('user',$length,$start);
 		$result=(object)array();
 		$result->recordsTotal=$this->db->count_all("user");
-		$result->recordsFiltered=count($rst);
+
 		$result->draw=$draw;
 		$result->data=$rst->result();
+        $result->recordsFiltered=count($result->data);
 		$this->outputjson($result);
 
 	}
