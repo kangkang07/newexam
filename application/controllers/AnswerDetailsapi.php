@@ -150,7 +150,7 @@ class AnswerDetailsapi extends RP_Controller {
         foreach($qas as $qa)
         {
             $ra=$this->getrightanswer($qa->question);
-            $this->db->simple_query("update question set usecount=usecount+1 where idquestion=".$qa->question);
+            $this->db->simple_query("update question set usercount=usercount+1 where idquestion=".$qa->question);
             if($qa->myanswer==$ra&&$ra!=null)
             {
                 $qa->result=$qa->score;
