@@ -42,18 +42,22 @@ app.controller('default', function($scope,$http,$sce,$interval) {
 		var now = new Date();
 		var duration = parseInt(response.data[0].duration);
 		var endtime = new Date(starttime.setMinutes(starttime.getMinutes() + duration));
+		endtime.setHours(endtime.getHours()-12);
+		if(endtime<now)
+			$scope.endexam();
 		//var leftseconds = endtime - now;
 		$scope.countdown = new Date();
 		$scope.countdown.setHours(0);
 		$scope.countdown.setMinutes(0);
 		$scope.countdown.setSeconds(0);
 		$scope.countdown.setMilliseconds(endtime - now);
+		$scope.countdown.setHours($scope.countdown.getHours()-11);
 		$interval(function(){
 		    $scope.countdown.setSeconds($scope.countdown.getSeconds() - 1);
 		    $scope.lefthour = $scope.countdown.getHours();
 			$scope.leftmin=$scope.countdown.getMinutes();
 			$scope.leftsec=$scope.countdown.getSeconds();
-			if($scope.leftsec==0 && $scope.leftmin==0)
+			if($scope.lefthour==0 && $scope.leftsec==0 && $scope.leftmin==0)
 			{
 				$scope.endexam();
 			}

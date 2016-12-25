@@ -89,15 +89,26 @@ class Userapi extends RP_Controller {
 			->group_start()
 				->or_like("schoolid",$search["value"])
 				->or_like("name",$search["value"])
-			->group_end();
+			->group_end()
+			->from("user");
 //			->order_by($orders)
-		$rst=$this->db->get('user',$length,$start);
+		$resultcount=$this->db->count_all_results();
+		$this->db
+			->select('iduser,schoolid,name,grade,class')
+			->where($where)
+			->group_start()
+			->or_like("schoolid",$search["value"])
+			->or_like("name",$search["value"])
+			->group_end()
+			->from("user");
+		$this->db->limit($length,$start);
+		$rst=$this->db->get();
 		$result=(object)array();
 		$result->recordsTotal=$this->db->count_all("user");
 
 		$result->draw=$draw;
 		$result->data=$rst->result();
-        $result->recordsFiltered=count($result->data);
+        $result->recordsFiltered=$resultcount;
 		$this->outputjson($result);
 
 	}

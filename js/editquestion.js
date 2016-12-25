@@ -318,7 +318,7 @@ function Question(cpt){
 	this.star=0;
 	this.group="";
 	this.refid="";
-	this.usecount=0;
+	this.usercount=0;
 	this.rightcount=0;
 	this.rightrate="";
 
@@ -347,6 +347,12 @@ function Question(cpt){
 		this.chapter=data.chapter;
 		this.title=data.title;
 		this.refid=data.refid;
+		this.usercount=data.usercount;
+		this.rightcount=data.rightcount;
+		this.rightrate=0;
+		if(this.usercount!=0)
+		this.rightrate=(100*this.rightcount/this.usercount).toFixed(2).toString();
+		console.log(this.rightcount);
 
 	};
 	this.bindevent=function(){
@@ -384,14 +390,12 @@ function Question(cpt){
 		this.o4=data.o4;
 		this.answer=data.answer;
 		this.refid=data.refid;
-		this.usecount=data.usecount;
-		this.rightcount=data.rightcount;
-		this.rightrate=(this.rightcount/this.usecount).toFixed(2).toString();
+
 	};
 	this.renderlistitem=function(){
 		var qst=$("#tpl-qstlistitem").clone();
 		var html=this.gettitle();
-		html+="<span class='qst-statistic'> 【使用："+this.usecount+"次 &nbsp;&nbsp; 正确率："+this.rightrate+"% 】</span>";
+		html+="<span class='qst-statistic'> 【使用："+this.usercount+"次 &nbsp;&nbsp; 正确率："+this.rightrate+"% 】</span>";
 		qst.find("button").html(html);
 
 		html=$(qst).html();
